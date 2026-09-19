@@ -31,6 +31,7 @@
 | Reproduce the exact comparison | [Exact reconstruction](#exact-reconstruction) |
 | Find the production owner of a source symbol | [Source and build ownership map](docs/SOURCE_MAP.md) |
 | Browse current subsystem semantics | [Current semantic index](docs/SEMANTIC_INDEX.md) |
+| Reuse the semantic/readability method in another title | [Semantic and readability playbook](docs/SEMANTIC_PLAYBOOK.md) |
 | Browse the technical documentation | [Project map](#project-map) |
 | Review upstream history and attribution | [Credits and provenance](#credits-and-provenance) |
 
@@ -475,7 +476,7 @@ Generated source-presence and strict-match figures are recorded in
 | Repository/target structure | [Architecture and binary inventory](docs/ARCHITECTURE.md) |
 | Find the production TU, exact probe, shared include, or build selector | [Source and build ownership map](docs/SOURCE_MAP.md) |
 | Find current declarations and semantic evidence by subsystem | [Current semantic index](docs/SEMANTIC_INDEX.md) |
-| Reverse engineering and acceptance | [RE workflow](docs/RE_WORKFLOW.md), [semantic reconstruction](docs/SEMANTIC_RECONSTRUCTION.md), and [build/matching](docs/BUILD_MATCHING.md) |
+| Reverse engineering and acceptance | [RE workflow](docs/RE_WORKFLOW.md), [semantic reconstruction](docs/SEMANTIC_RECONSTRUCTION.md), [cross-title semantic playbook](docs/SEMANTIC_PLAYBOOK.md), and [build/matching](docs/BUILD_MATCHING.md) |
 | ANM/effect protocol references | [ANM resource namespaces](docs/ANM_RESOURCE_INDEX.md) and [Effect storage/callback roles](docs/EFFECT_STORAGE.md) |
 | Analysis safety and commands | [IDA safety](docs/IDA_MCP.md), [tool recipes](docs/TOOLS.md), and [agent rules](AGENTS.md) |
 | Reusable evidence and prior lessons | [Knowledge map](docs/KNOWLEDGE_BASE.md) |

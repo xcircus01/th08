@@ -5,7 +5,8 @@ anonymous storage, protocol numbers, and provisional identifiers—with
 evidence-backed C++ while preserving both the accepted VC7 bytes and playable
 modern behavior. Current subsystem navigation lives in
 [SEMANTIC_INDEX.md](SEMANTIC_INDEX.md); completed batch records live in
-[SEMANTIC_HISTORY.md](SEMANTIC_HISTORY.md).
+[SEMANTIC_HISTORY.md](SEMANTIC_HISTORY.md). The cross-project lessons distilled
+from those batches live in [SEMANTIC_PLAYBOOK.md](SEMANTIC_PLAYBOOK.md).
 
 ## Evidence boundary
 
