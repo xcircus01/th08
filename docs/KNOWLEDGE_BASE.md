@@ -10,8 +10,11 @@ before repeating target analysis or compiler-shape probes.
 | --- | --- | --- |
 | Target identity, sections, inventory classes, repository layout | [ARCHITECTURE.md](ARCHITECTURE.md) | Stable project facts and evidence boundaries. |
 | Current milestone, deferred work, next bounded lane | [RE_HANDOFF.md](RE_HANDOFF.md) | Short, replaceable current state only. |
+| Production/probe/shared-include ownership and build selection | [SOURCE_MAP.md](SOURCE_MAP.md) | Current routing from a source family to its playable owner, VC7 probe, and validation entry point. |
+| Current subsystem semantics | [SEMANTIC_INDEX.md](SEMANTIC_INDEX.md) | Short owner/evidence index; use the semantic policy and history documents for acceptance rules and chronological batch records. |
 | Evidence ranking and reconstruction loop | [RE_WORKFLOW.md](RE_WORKFLOW.md) | Durable operating method and acceptance language. |
 | Semantic field/type recovery and two-oracle acceptance | [SEMANTIC_RECONSTRUCTION.md](SEMANTIC_RECONSTRUCTION.md) | Evidence classes, bounded batch format, typed-layout rules, and VC7/portable validation matrix. |
+| Completed semantic batches | [SEMANTIC_HISTORY.md](SEMANTIC_HISTORY.md) | Chronological observed/corroborated/inferred evidence and Oracle results. |
 | Command selection and scratch lifecycle | [TOOLS.md](TOOLS.md) | Public entry points, copyable recipes, and tool limits. |
 | Exact authored totals | [PROGRESS.md](PROGRESS.md) and `config/matches.csv` | Generated totals and accepted per-address evidence. |
 | Target mappings and types | `config/mapping.csv`, `config/reccmp-*.csv` | Imported/reconciled leads; mapping alone is not exactness. |
@@ -41,6 +44,8 @@ before repeating target analysis or compiler-shape probes.
 | Library candidate discovery | `scripts/analysis/propose-library-units.py` | Conservative review queue from one pinned archive; candidate status is not exact acceptance and must be promoted through an explicit unit plus `compare-library.py`. |
 | Stale object/PCH exact-state failures | Search `BUILD_MATCHING.md` for `cold-build` | Why focused historical successes cannot be promoted to a current aggregate without a cold full replay. |
 | Raw offsets, anonymous fields, and semantic naming | [SEMANTIC_RECONSTRUCTION.md](SEMANTIC_RECONSTRUCTION.md), `$th08-semantic`, then `scripts/analysis/report-semantic-debt.py` | Candidate scans are routing only. Accept one field family from target evidence plus applicable VC7 and portable oracle results. |
+| ANM file/script/sprite namespaces | [ANM_RESOURCE_INDEX.md](ANM_RESOURCE_INDEX.md) | Keeps manager slots and resource-local IDs distinct and records the remaining opcode evidence queue. |
+| Effect pool ownership and callback scratch roles | [EFFECT_STORAGE.md](EFFECT_STORAGE.md) | Borrowed-pointer/pool contract and callback-local vector-role matrix. |
 
 Fast lookup recipes:
 

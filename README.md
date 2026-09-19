@@ -29,6 +29,8 @@
 | Play or build a port | [Platform guides](#platform-guides) |
 | Reproduce the native VC7 runtime gate | [Windows i386 reconstruction runtime](docs/WINDOWS_I386_RUNTIME.md) |
 | Reproduce the exact comparison | [Exact reconstruction](#exact-reconstruction) |
+| Find the production owner of a source symbol | [Source and build ownership map](docs/SOURCE_MAP.md) |
+| Browse current subsystem semantics | [Current semantic index](docs/SEMANTIC_INDEX.md) |
 | Browse the technical documentation | [Project map](#project-map) |
 | Review upstream history and attribution | [Credits and provenance](#credits-and-provenance) |
 
@@ -221,14 +223,16 @@ support them.
 The remaining 74 numeric `case` labels are option-array indices, damage or life
 quantities, or per-file animation IDs whose visual meaning remains ambiguous.
 The audit used target-side C/C++ only (excluding TH08's modern port), with TH06
-at `cc475a0b` and TH07 at `84963b2e`. The [semantic reconstruction
-record](docs/SEMANTIC_RECONSTRUCTION.md) gives the counting rules, full commit
+at `cc475a0b` and TH07 at `84963b2e`. These are fixed review baselines, not a
+claim about the current heads of either reference; the locally refreshed TH07
+reference is now at `e0d79ebb`. The [semantic reconstruction
+history](docs/SEMANTIC_HISTORY.md) gives the counting rules, full commit
 IDs, exceptions, and Oracle results.
 
 The final pass cold-built all 75 configured comparison objects and reproduced
 all **1,106 / 1,106 accepted exact functions**. The normal VC7 image linked,
 and the full Linux i386 build and fixed-layout check passed. The [semantic
-reconstruction record](docs/SEMANTIC_RECONSTRUCTION.md) has the full evidence
+reconstruction history](docs/SEMANTIC_HISTORY.md) has the full evidence
 trail, the exact-safe source-shape rules, the unknowns we kept, and the results
 for each batch.
 
@@ -466,25 +470,18 @@ Generated source-presence and strict-match figures are recorded in
 
 ## Project map
 
-- [TH08 Web browser port and engineering documentation](https://github.com/N0zoM1z0/th08-web)
-- [Linux download, installation, and play guide](docs/PLAY_LINUX.md)
-- [Native Windows user guide and status](docs/PLAY_WINDOWS.md)
-- [VC7 Windows i386 reconstruction runtime](docs/WINDOWS_I386_RUNTIME.md)
-- [Native runtime data-owner audit](docs/OWNER_AUDIT.md)
-- [Native Windows runtime issue ledger](docs/RUNTIME_ISSUES.md)
-- [Native macOS user guide and status](docs/PLAY_MACOS.md)
-- [Architecture and binary inventory](docs/ARCHITECTURE.md)
-- [Reverse-engineering workflow](docs/RE_WORKFLOW.md)
-- [Semantic reconstruction and two-oracle acceptance](docs/SEMANTIC_RECONSTRUCTION.md)
-- [IDA and analysis safety](docs/IDA_MCP.md)
-- [Build and exact matching](docs/BUILD_MATCHING.md)
-- [Playable reconstruction ports](docs/PORTING.md)
-- [Native Linux playable reconstruction](docs/LINUX_PORTING.md)
-- [Tool selection and command recipes](docs/TOOLS.md)
-- [Reusable knowledge map and contribution policy](docs/KNOWLEDGE_BASE.md)
-- [Current handoff and next milestones](docs/RE_HANDOFF.md)
-- [Generated reconstruction progress](docs/PROGRESS.md)
-- [Agent operating rules](AGENTS.md)
+| Need | Start here |
+| --- | --- |
+| Current state and next bounded work | [Current handoff](docs/RE_HANDOFF.md) and [generated progress](docs/PROGRESS.md) |
+| Repository/target structure | [Architecture and binary inventory](docs/ARCHITECTURE.md) |
+| Find the production TU, exact probe, shared include, or build selector | [Source and build ownership map](docs/SOURCE_MAP.md) |
+| Find current declarations and semantic evidence by subsystem | [Current semantic index](docs/SEMANTIC_INDEX.md) |
+| Reverse engineering and acceptance | [RE workflow](docs/RE_WORKFLOW.md), [semantic reconstruction](docs/SEMANTIC_RECONSTRUCTION.md), and [build/matching](docs/BUILD_MATCHING.md) |
+| ANM/effect protocol references | [ANM resource namespaces](docs/ANM_RESOURCE_INDEX.md) and [Effect storage/callback roles](docs/EFFECT_STORAGE.md) |
+| Analysis safety and commands | [IDA safety](docs/IDA_MCP.md), [tool recipes](docs/TOOLS.md), and [agent rules](AGENTS.md) |
+| Reusable evidence and prior lessons | [Knowledge map](docs/KNOWLEDGE_BASE.md) |
+| Native VC7 runtime evidence | [Windows i386 workflow](docs/WINDOWS_I386_RUNTIME.md), [owner audit](docs/OWNER_AUDIT.md), and [runtime issues](docs/RUNTIME_ISSUES.md) |
+| Playable ports | [Port overview](docs/PORTING.md), [Linux engineering](docs/LINUX_PORTING.md), [Linux play guide](docs/PLAY_LINUX.md), [Windows](docs/PLAY_WINDOWS.md), [macOS](docs/PLAY_MACOS.md), and [Web project](https://github.com/N0zoM1z0/th08-web) |
 
 ## Credits and provenance
 
