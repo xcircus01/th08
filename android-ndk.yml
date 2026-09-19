@@ -1,0 +1,75 @@
+name: Android NDK build (libmain.so)
+
+# STATUS: builds the native shared library only (libmain.so for
+# armeabi-v7a), matching the CMake ANDROID branch added in the Android
+# porting patch (docs/ANDROID_PORTING.md). It does NOT yet produce an
+# installable .apk — that needs a Gradle Android app project wrapping this
+# .so with SDLActivity, which is still a TODO (see
+# android-project-skeleton/ in the porting patch). Once that Gradle project
+# exists, replace the final steps here with `./gradlew assembleDebug` and
+# upload the .apk instead of the raw .so.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: th08-android-ndk-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pin an explicit NDK version instead of trusting whatever the runner
+  # image happens to ship, so this build doesn't silently break when
+  # GitHub updates ubuntu-latest's preinstalled NDK.
+  NDK_VERSION: r27c
+  ANDROID_ABI: armeabi-v7a
+  ANDROID_PLATFORM: android-21
+
+jobs:
+  build-android-native:
+    name: Build libmain.so (${{ github.event.inputs.abi || 'armeabi-v7a' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Install NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          add-to-path: false
+
+      - name: Install Python (for the generated i18n header step)
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      # SDL2/SDL2_image/SDL2_ttf aren't on the runner for Android targets;
+      # FetchContent (declared in CMakeLists.txt's ANDROID branch) pulls
+      # them from GitHub at configure time instead. See the comment block
+      # in CMakeLists.txt for the exact GIT_TAGs currently pinned.
+      - name: Configure (CMake + NDK toolchain)
+        run: |
+          cmake -S . -B build-android \
+            -DCMAKE_TOOLCHAIN_FILE="${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake" \
+            -DANDROID_ABI="${{ env.ANDROID_ABI }}" \
+            -DANDROID_PLATFORM="${{ env.ANDROID_PLATFORM }}" \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+      - name: Build
+        run: cmake --build build-android --parallel
+
+      - name: Upload libmain.so
+        uses: actions/upload-artifact@v4
+        with:
+          name: th08-modern-android-${{ env.ANDROID_ABI }}
+          path: build-android/libmain.so
+          if-no-files-found: error
+          retention-days: 14

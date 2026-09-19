@@ -79,6 +79,24 @@ set(TH08_GAME_SOURCES
 if(WIN32)
     list(APPEND TH08_GAME_SOURCES src/modern/windows_runtime.cpp)
     add_executable(th08-modern WIN32 ${TH08_GAME_SOURCES})
+elseif(ANDROID)
+    # NOTE: ANDROID also satisfies "UNIX AND NOT APPLE" below, so this branch
+    # MUST come first or CMake will silently build it as the Linux target
+    # instead (wrong: pkg-config isn't available for cross builds, and a
+    # plain executable isn't what SDLActivity loads).
+    list(APPEND TH08_GAME_SOURCES
+        src/modern/linux/d3d8_compat.cpp
+        src/modern/linux/d3dx8_compat.cpp
+        src/modern/linux/linux_compat.cpp
+        # linux_runtime.cpp is intentionally NOT reused: it installs a
+        # SIGSEGV backtrace handler via execinfo.h/backtrace(), which
+        # bionic (Android's libc) does not provide. Android needs its own
+        # small runtime.cpp (crash reporting via android/log.h instead).
+        src/modern/android/android_runtime.cpp
+    )
+    # SDLActivity (SDL2's Java glue) loads this as a JNI shared library and
+    # calls its own native entry point, which in turn calls SDL_main.
+    add_library(th08-modern SHARED ${TH08_GAME_SOURCES})
 elseif(UNIX AND NOT APPLE)
     list(APPEND TH08_GAME_SOURCES
         src/modern/linux/d3d8_compat.cpp
@@ -88,7 +106,7 @@ elseif(UNIX AND NOT APPLE)
     )
     add_executable(th08-modern ${TH08_GAME_SOURCES})
 else()
-    message(FATAL_ERROR "The modern target currently supports Windows and Linux.")
+    message(FATAL_ERROR "The modern target currently supports Windows, Linux, and Android.")
 endif()
 add_dependencies(th08-modern th08-modern-generated)
 target_compile_features(th08-modern PRIVATE cxx_std_98)
@@ -163,6 +181,63 @@ elseif(MSVC)
         dxguid d3dx8 dinput8 dsound d3d8 winmm
         kernel32 user32 gdi32 advapi32 shell32 ole32 oleaut32 uuid dbghelp
     )
+elseif(ANDROID)
+    # Same ordering caveat as above: ANDROID also satisfies "UNIX AND NOT
+    # APPLE", so this must be checked first here too.
+    #
+    # Built via the NDK's CMake toolchain, e.g.:
+    #   cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    #         -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=android-21 ..
+    # armeabi-v7a (32-bit) is required today: see the CMAKE_SIZEOF_VOID_P
+    # check at the top of this file. The reconstructed source assumes ILP32
+    # (matches the original i386 target); a 64-bit ABI is out of scope until
+    # that assumption is revisited project-wide, same as the x86_64 Linux
+    # work on port/portable-64bit.
+    #
+    # SDL2/SDL2_image/SDL2_ttf are not available via pkg-config on Android.
+    # Vendor them as CMake subprojects (FetchContent or a git submodule) and
+    # link the targets they export instead of PkgConfig::*, e.g.:
+    #   FetchContent_Declare(SDL2 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.30.x)
+    #   FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git GIT_TAG release-2.8.x)
+    #   FetchContent_Declare(SDL2_ttf GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git GIT_TAG release-2.22.x)
+    #   FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_ttf)
+    # then replace PkgConfig::SDL2 / PkgConfig::SDL2_IMAGE / PkgConfig::SDL2_TTF
+    # below with SDL2::SDL2 / SDL2_image::SDL2_image / SDL2_ttf::SDL2_ttf.
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+    find_package(OpenGL REQUIRED)  # resolves to libGLESv1_CM via the NDK toolchain file
+
+    target_compile_definitions(th08-modern PRIVATE
+        TH08_MODERN_ANDROID
+        TH08_DESKTOP_GL=0
+    )
+    target_compile_options(th08-modern PRIVATE
+        -O0
+        -fpermissive
+        -fdata-sections
+        -fno-omit-frame-pointer
+        -Wno-write-strings
+        "-include${CMAKE_SOURCE_DIR}/src/modern/android/android_compat.hpp"
+    )
+    target_include_directories(th08-modern BEFORE PRIVATE
+        # Reuses the Linux port's Win32/D3D8/DSound/DInput header shims
+        # as-is; android_compat.hpp only overrides font lookup and input.
+        "${CMAKE_SOURCE_DIR}/src/modern/linux/include"
+    )
+    target_link_libraries(th08-modern PRIVATE
+        SDL2::SDL2 SDL2::SDL2main
+        SDL2_image::SDL2_image
+        SDL2_ttf::SDL2_ttf
+        GLESv1_CM
+        android
+        log
+    )
+    # NDK CMake builds produce a shared library, loaded by SDL2's Java
+    # NativeActivity glue (see android-project-skeleton/ alongside this file).
+    set_target_properties(th08-modern PROPERTIES
+        LIBRARY_OUTPUT_NAME "main"
+    )
 elseif(UNIX AND NOT APPLE)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
@@ -217,7 +292,7 @@ elseif(UNIX AND NOT APPLE)
         VERBATIM
     )
 else()
-    message(FATAL_ERROR "The modern Windows target currently supports MSVC and MinGW.")
+    message(FATAL_ERROR "The modern Windows target currently supports MSVC, MinGW, Linux, and Android.")
 endif()
 
 set_target_properties(th08-modern PROPERTIES OUTPUT_NAME "th08-modern")
