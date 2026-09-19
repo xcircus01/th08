@@ -30,13 +30,10 @@ Portable 64-bit and Web follow-up work is maintained on their corresponding
 branches/repositories; it does not replace the native VC7 prerequisite or the
 strict target comparison.
 
-## Active readability batch
+## Completed maintainer-navigation batch
 
-Branch: `readability/maintainer-navigation`, based on
-`main@a483e1c17837bc1680906424107cc9118ed64d60`.
-
-The batch makes repository knowledge easier to enter without changing target
-behavior:
+The 2026-09-19 batch makes repository knowledge easier to enter without
+changing target behavior:
 
 - `SOURCE_MAP.md` maps production owners, exact probes, shared includes, build
   selectors, and validation entry points;
@@ -70,7 +67,7 @@ link validation, and `git diff --check` all pass.
 
 ## Next bounded work
 
-After this documentation/readability batch lands, select one evidence-backed
+With this documentation/readability batch complete, select one evidence-backed
 family at a time. The current ANM queue intentionally leaves opcodes 25, 31,
 and 88 neutral until their complete TH08 consumer sets justify a shared-layout
 rename. Whole-image/library work remains independent and should resume only for

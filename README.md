@@ -223,11 +223,10 @@ support them.
 The remaining 74 numeric `case` labels are option-array indices, damage or life
 quantities, or per-file animation IDs whose visual meaning remains ambiguous.
 The audit used target-side C/C++ only (excluding TH08's modern port), with TH06
-at `cc475a0b` and TH07 at `84963b2e`. These are fixed review baselines, not a
-claim about the current heads of either reference; the locally refreshed TH07
-reference is now at `e0d79ebb`. The [semantic reconstruction
-history](docs/SEMANTIC_HISTORY.md) gives the counting rules, full commit
-IDs, exceptions, and Oracle results.
+at `cc475a0b` and TH07 at `84963b2e`. These are fixed review baselines and do
+not move with the current heads of either reference. The [semantic
+reconstruction history](docs/SEMANTIC_HISTORY.md) gives the counting rules,
+full commit IDs, exceptions, and Oracle results.
 
 The final pass cold-built all 75 configured comparison objects and reproduced
 all **1,106 / 1,106 accepted exact functions**. The normal VC7 image linked,
