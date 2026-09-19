@@ -174,7 +174,7 @@ For one semantic batch:
 3. replay all affected accepted VC7 units and compile/link the modern target;
 4. after a shared layout, PCH, inline, owner, or fixed-address change, run the
    cold aggregate VC7 gate and the applicable Linux layout/runtime checks;
-5. record the accepted batch in `docs/SEMANTIC_RECONSTRUCTION.md`, without
+5. record the accepted batch in `docs/SEMANTIC_HISTORY.md`, without
    changing authored/exact totals for a naming-only improvement.
 
 For the deferred whole-executable lane, start from a single-job cold normal
